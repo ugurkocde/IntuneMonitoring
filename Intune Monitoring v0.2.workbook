@@ -62,98 +62,6 @@
       "content": {
         "version": "NotebookGroup/1.0",
         "groupType": "editable",
-        "title": "Version",
-        "loadType": "always",
-        "items": [
-          {
-            "type": 3,
-            "content": {
-              "version": "KqlItem/1.0",
-              "query": "{\"version\":\"1.0.0\",\"content\":\"[{\\\"version\\\" : \\\"v0.2\\\"}]\",\"transformers\":null}",
-              "size": 4,
-              "title": "Version of Current Workbook",
-              "queryType": 8
-            },
-            "name": "queryCurrentVersion"
-          },
-          {
-            "type": 3,
-            "content": {
-              "version": "KqlItem/1.0",
-              "query": "{\"version\":\"CustomEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"url\":\"https://raw.githubusercontent.com/ugurkocde/IntuneMonitoring/refs/heads/main/version.json\",\"contentType\":\"text/plain\",\"urlParams\":[],\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*\",\"columns\":[]}}],\"ignoreStandardHeaders\":true}",
-              "size": 4,
-              "queryType": 10
-            },
-            "name": "queryNewVersion"
-          },
-          {
-            "type": 9,
-            "content": {
-              "version": "KqlParameterItem/1.0",
-              "parameters": [
-                {
-                  "id": "322a4252-63e7-4fc6-b093-a46e096604bb",
-                  "version": "KqlParameterItem/1.0",
-                  "name": "CurrentVersion",
-                  "type": 1,
-                  "query": "{\"version\":\"Merge/1.0\",\"merges\":[{\"id\":\"80d4e0a0-2c32-4c79-b7f0-e4bdeb8212a4\",\"mergeType\":\"table\",\"leftTable\":\"queryCurrentVersion\"}],\"projectRename\":[{\"originalName\":\"[queryCurrentVersion].version\",\"mergedName\":\"version\",\"fromId\":\"80d4e0a0-2c32-4c79-b7f0-e4bdeb8212a4\"}]}",
-                  "queryType": 7
-                },
-                {
-                  "id": "6da82644-4ffc-4a38-8a0f-fa8357be860b",
-                  "version": "KqlParameterItem/1.0",
-                  "name": "NewVersion",
-                  "type": 1,
-                  "query": "{\"version\":\"Merge/1.0\",\"merges\":[{\"id\":\"80d4e0a0-2c32-4c79-b7f0-e4bdeb8212a6\",\"mergeType\":\"table\",\"leftTable\":\"queryNewVersion\"}],\"projectRename\":[{\"originalName\":\"[queryNewVersion].version\",\"mergedName\":\"version\",\"fromId\":\"80d4e0a0-2c32-4c79-b7f0-e4bdeb8212a6\"}]}",
-                  "queryType": 7
-                },
-                {
-                  "id": "4729eba0-4347-49be-913a-1b68c2fcb4ae",
-                  "version": "KqlParameterItem/1.0",
-                  "name": "ReleaseHeader",
-                  "type": 1,
-                  "criteriaData": [
-                    {
-                      "criteriaContext": {
-                        "leftOperand": "CurrentVersion",
-                        "operator": "!=",
-                        "rightValType": "param",
-                        "rightVal": "NewVersion",
-                        "resultValType": "static",
-                        "resultVal": "<a href=\"https://github.com/ugurkocde/IntuneMonitoring/releases\" target=\"_blank\" style=\"font-size: 20px; color: #888; margin-left: 10px; text-decoration: none;\">`{CurrentVersion} → {NewVersion} A new update is available`</a>"
-                      }
-                    },
-                    {
-                      "criteriaContext": {
-                        "operator": "Default",
-                        "resultValType": "param",
-                        "resultVal": "CurrentVersion"
-                      }
-                    }
-                  ]
-                }
-              ],
-              "style": "pills",
-              "queryType": 0,
-              "resourceType": "microsoft.operationalinsights/workspaces"
-            },
-            "name": "parameterVersion"
-          }
-        ],
-        "exportParameters": true
-      },
-      "conditionalVisibility": {
-        "parameterName": "hide",
-        "comparison": "isEqualTo",
-        "value": "hide"
-      },
-      "name": "Version"
-    },
-    {
-      "type": 12,
-      "content": {
-        "version": "NotebookGroup/1.0",
-        "groupType": "editable",
         "expandable": true,
         "expanded": true,
         "loadType": "always",
@@ -161,7 +69,7 @@
           {
             "type": 1,
             "content": {
-              "json": "<div style=\"display: flex; justify-content: space-between; align-items: center;\">\r\n  <div style=\"display: flex; align-items: center;\">\r\n    <img src=\"https://adoption.microsoft.com/wp-content/uploads/2025/04/icon-intune.svg\" style=\"height: 42px; margin-right: 10px;\" />\r\n    <span style=\"font-size: 64px;\">Intune Monitoring</span>\r\n    <span style=\"font-size: 20px; color: #888; margin-left: 10px;\"> {ReleaseHeader} </span>\r\n  </div>\r\n  <img src=\"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBDXy-6OYK_mlwlHPP9yO1KzCsv7rDCgqAAA&s\" style=\"height: 40px;\" />\r\n</div>\r\n\r\n<p style=\"margin-top: -10px; font-size: 14px; color: #555;\">\r\n  Created by \r\n  <a href=\"https://www.linkedin.com/in/daniel-rung/\" target=\"_blank\" style=\"color: #0078d4; text-decoration: none;\">Daniel</a> and \r\n  <a href=\"https://www.linkedin.com/in/ugurkocde/\" target=\"_blank\" style=\"color: #0078d4; text-decoration: none;\">Ugur</a>\r\n</p>\r\n\r\n### **🧩 Connected Tenant:** `{paramOrg}`  \r\n\r\n---\r\n\r\n### 🔍 Changelog – [Check the latest release](https://github.com/ugurkocde/IntuneMonitoring/releases)\r\n\r\n### 📄 Source Code is available on [GitHub](https://github.com/ugurkocde/IntuneMonitoring)\r\n\r\n### 💬 Feedback or Issues? [Open on GitHub](https://github.com/ugurkocde/IntuneMonitoring)\r\n"
+              "json": "<div style=\"display: flex; justify-content: space-between; align-items: center;\">\r\n  <div style=\"display: flex; align-items: center;\">\r\n    <img src=\"https://adoption.microsoft.com/wp-content/uploads/2025/04/icon-intune.svg\" style=\"height: 42px; margin-right: 10px;\" />\r\n    <span style=\"font-size: 64px;\">Intune Monitoring</span>\r\n    <span style=\"font-size: 20px; color: #888; margin-left: 10px;\"> v0.2 </span>\r\n  </div>\r\n  <img src=\"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBDXy-6OYK_mlwlHPP9yO1KzCsv7rDCgqAAA&s\" style=\"height: 40px;\" />\r\n</div>\r\n\r\n<p style=\"margin-top: -10px; font-size: 14px; color: #555;\">\r\n  Created by \r\n  <a href=\"https://www.linkedin.com/in/daniel-rung/\" target=\"_blank\" style=\"color: #0078d4; text-decoration: none;\">Daniel</a> and \r\n  <a href=\"https://www.linkedin.com/in/ugurkocde/\" target=\"_blank\" style=\"color: #0078d4; text-decoration: none;\">Ugur</a>\r\n</p>\r\n\r\n### **🧩 Connected Tenant:** `{paramOrg}`  \r\n\r\n---\r\n\r\n### 🔍 Changelog – [Check the latest release](https://github.com/ugurkocde/IntuneMonitoring/releases)\r\n\r\n### 📄 Source Code is available on [GitHub](https://github.com/ugurkocde/IntuneMonitoring)\r\n\r\n### 💬 Feedback or Issues? [Open on GitHub](https://github.com/ugurkocde/IntuneMonitoring)\r\n"
             },
             "name": "Version",
             "styleSettings": {
@@ -9258,7 +9166,7 @@
     }
   ],
   "fallbackResourceIds": [
-    "azure monitor"
+    "Azure Monitor"
   ],
   "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
 }
