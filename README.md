@@ -61,14 +61,6 @@ The workbook includes multiple monitoring categories that can be customized:
 
 Visit [IntuneMonitoring.com](https://intunemonitoring.com) to easily customize which categories to include and add your company branding.
 
-## Updates
-
-Current Version: **v0.1**
-
-Stay updated with the latest features and improvements:
-- Watch this repository for new releases
-- Check [IntuneMonitoring.com](https://intunemonitoring.com) for the latest customization options
-
 ## Contributing
 
 We welcome contributions! If you have ideas for new monitoring categories or improvements:
