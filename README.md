@@ -3,7 +3,7 @@
 Monitor device health, app deployments, compliance status, and policy trends — all in real time from a single pane of glass.
 
 <div align="center">
-<img width="1524" height="1019" alt="intunemonitoring" src="https://github.com/user-attachments/assets/212d6bb4-3fdd-41c0-a759-a41a9bc339cf" />
+<img width="1173" height="810" alt="Overview (1)" src="https://github.com/user-attachments/assets/68f0b79f-646e-4d5d-96c2-f3886e1fe0f2" />
 </div>
 
 ## Overview
