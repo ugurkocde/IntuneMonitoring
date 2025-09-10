@@ -1,1 +1,254 @@
-
+[
+  {
+    "name": "11-24h2-e",
+    "codename": null,
+    "label": "11 24H2 (E)",
+    "releaseDate": "2024-10-01",
+    "isLts": false,
+    "ltsFrom": null,
+    "isEoas": false,
+    "eoasFrom": "2027-10-12",
+    "isEol": false,
+    "eolFrom": "2027-10-12",
+    "isEoes": null,
+    "eoesFrom": null,
+    "isMaintained": true,
+    "latest": {
+      "name": "10.0.26100",
+      "date": null,
+      "link": "https://learn.microsoft.com/windows/release-health/windows11-release-information"
+    },
+    "custom": null
+  },
+  {
+    "name": "11-23h2-e",
+    "codename": null,
+    "label": "11 23H2 (E)",
+    "releaseDate": "2023-10-31",
+    "isLts": false,
+    "ltsFrom": null,
+    "isEoas": false,
+    "eoasFrom": "2026-11-10",
+    "isEol": false,
+    "eolFrom": "2026-11-10",
+    "isEoes": null,
+    "eoesFrom": null,
+    "isMaintained": true,
+    "latest": {
+      "name": "10.0.22631",
+      "date": null,
+      "link": "https://learn.microsoft.com/windows/release-health/windows11-release-information"
+    },
+    "custom": null
+  },
+  {
+    "name": "11-22h2-e",
+    "codename": null,
+    "label": "11 22H2 (E)",
+    "releaseDate": "2022-09-20",
+    "isLts": false,
+    "ltsFrom": null,
+    "isEoas": false,
+    "eoasFrom": "2025-10-14",
+    "isEol": false,
+    "eolFrom": "2025-10-14",
+    "isEoes": null,
+    "eoesFrom": null,
+    "isMaintained": true,
+    "latest": {
+      "name": "10.0.22621",
+      "date": null,
+      "link": "https://learn.microsoft.com/windows/release-health/windows11-release-information"
+    },
+    "custom": null
+  },
+  {
+    "name": "10-21h2-e",
+    "codename": null,
+    "label": "10 21H2 (E)",
+    "releaseDate": "2021-11-16",
+    "isLts": false,
+    "ltsFrom": null,
+    "isEoas": true,
+    "eoasFrom": "2024-06-11",
+    "isEol": true,
+    "eolFrom": "2024-06-11",
+    "isEoes": null,
+    "eoesFrom": null,
+    "isMaintained": false,
+    "latest": {
+      "name": "10.0.19044",
+      "date": null,
+      "link": "https://learn.microsoft.com/lifecycle/products/windows-10-enterprise-and-education"
+    },
+    "custom": null
+  },
+  {
+    "name": "11-21h2-e",
+    "codename": null,
+    "label": "11 21H2 (E)",
+    "releaseDate": "2021-10-04",
+    "isLts": false,
+    "ltsFrom": null,
+    "isEoas": true,
+    "eoasFrom": "2024-10-08",
+    "isEol": true,
+    "eolFrom": "2024-10-08",
+    "isEoes": null,
+    "eoesFrom": null,
+    "isMaintained": false,
+    "latest": {
+      "name": "10.0.22000",
+      "date": null,
+      "link": "https://learn.microsoft.com/windows/release-health/windows11-release-information"
+    },
+    "custom": null
+  },
+  {
+    "name": "10-20h2-e",
+    "codename": null,
+    "label": "10 20H2 (E)",
+    "releaseDate": "2020-10-20",
+    "isLts": false,
+    "ltsFrom": null,
+    "isEoas": true,
+    "eoasFrom": "2023-05-09",
+    "isEol": true,
+    "eolFrom": "2023-05-09",
+    "isEoes": null,
+    "eoesFrom": null,
+    "isMaintained": false,
+    "latest": {
+      "name": "10.0.19042",
+      "date": null,
+      "link": "https://learn.microsoft.com/windows/release-health/status-windows-10-20h2"
+    },
+    "custom": null
+  },
+  {
+    "name": "10-1909-e",
+    "codename": null,
+    "label": "10 1909 (E)",
+    "releaseDate": "2019-11-12",
+    "isLts": false,
+    "ltsFrom": null,
+    "isEoas": true,
+    "eoasFrom": "2022-05-10",
+    "isEol": true,
+    "eolFrom": "2022-05-10",
+    "isEoes": null,
+    "eoesFrom": null,
+    "isMaintained": false,
+    "latest": {
+      "name": "10.0.18363",
+      "date": null,
+      "link": "https://learn.microsoft.com/lifecycle/announcements/windows-10-1909-enterprise-education-eos"
+    },
+    "custom": null
+  },
+  {
+    "name": "10-1809-e",
+    "codename": null,
+    "label": "10 1809 (E)",
+    "releaseDate": "2018-11-13",
+    "isLts": false,
+    "ltsFrom": null,
+    "isEoas": true,
+    "eoasFrom": "2021-05-11",
+    "isEol": true,
+    "eolFrom": "2021-05-11",
+    "isEoes": null,
+    "eoesFrom": null,
+    "isMaintained": false,
+    "latest": {
+      "name": "10.0.17763",
+      "date": null,
+      "link": "https://learn.microsoft.com/lifecycle/announcements/windows-10-1803-1809-end-of-servicing"
+    },
+    "custom": null
+  },
+  {
+    "name": "10-1803-e",
+    "codename": null,
+    "label": "10 1803 (E)",
+    "releaseDate": "2018-04-30",
+    "isLts": false,
+    "ltsFrom": null,
+    "isEoas": true,
+    "eoasFrom": "2020-05-11",
+    "isEol": true,
+    "eolFrom": "2021-05-11",
+    "isEoes": null,
+    "eoesFrom": null,
+    "isMaintained": false,
+    "latest": {
+      "name": "10.0.17134",
+      "date": null,
+      "link": "https://learn.microsoft.com/lifecycle/announcements/windows-10-1803-1809-end-of-servicing"
+    },
+    "custom": null
+  },
+  {
+    "name": "10-1709-e",
+    "codename": null,
+    "label": "10 1709 (E)",
+    "releaseDate": "2017-10-17",
+    "isLts": false,
+    "ltsFrom": null,
+    "isEoas": true,
+    "eoasFrom": "2020-10-13",
+    "isEol": true,
+    "eolFrom": "2020-10-13",
+    "isEoes": null,
+    "eoesFrom": null,
+    "isMaintained": false,
+    "latest": {
+      "name": "10.0.16299",
+      "date": null,
+      "link": "https://learn.microsoft.com/lifecycle/announcements/windows-10-1709-end-of-servicing"
+    },
+    "custom": null
+  },
+  {
+    "name": "10-1703-e",
+    "codename": null,
+    "label": "10 1703 (E)",
+    "releaseDate": "2017-04-11",
+    "isLts": false,
+    "ltsFrom": null,
+    "isEoas": true,
+    "eoasFrom": "2019-10-08",
+    "isEol": true,
+    "eolFrom": "2019-10-08",
+    "isEoes": null,
+    "eoesFrom": null,
+    "isMaintained": false,
+    "latest": {
+      "name": "10.0.15063",
+      "date": null,
+      "link": "https://techcommunity.microsoft.com/t5/windows-it-pro-blog/end-of-service-reminders-for-windows-10-versions-1703-and-1803/ba-p/903715"
+    },
+    "custom": null
+  },
+  {
+    "name": "10-1607-e",
+    "codename": null,
+    "label": "10 1607 (E)",
+    "releaseDate": "2016-08-02",
+    "isLts": false,
+    "ltsFrom": null,
+    "isEoas": true,
+    "eoasFrom": "2019-04-09",
+    "isEol": true,
+    "eolFrom": "2019-04-09",
+    "isEoes": null,
+    "eoesFrom": null,
+    "isMaintained": false,
+    "latest": {
+      "name": "10.0.14393",
+      "date": null,
+      "link": "https://learn.microsoft.com/lifecycle/announcements/windows-10-1607-end-of-servicing"
+    },
+    "custom": null
+  }
+]
