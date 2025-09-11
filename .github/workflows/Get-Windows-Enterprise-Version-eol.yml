@@ -1,0 +1,38 @@
+name: Get Windows Enterprise EOL Data
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  
+  workflow_dispatch:
+
+jobs:
+  fetch-windows-enterprise-eol:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create Files directory
+        run: mkdir -p Files
+
+      - name: Fetch Windows Enterprise EOL Data
+        shell: pwsh
+        run: |
+          $response = Invoke-RestMethod -Uri "https://endoflife.date/api/v1/products/windows"
+          
+          $enterpriseReleases = $response.result.releases | Where-Object { $_.name -like "*-e" }
+          
+          $enterpriseReleases | ConvertTo-Json -Depth 10 | Out-File -FilePath "Files/WindowsEnterprise-eol.json" -Encoding UTF8
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add Files/WindowsEnterprise-eol.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update Windows Enterprise EOL data - $(date +%Y-%m-%d)"
+            git push
+          fi
