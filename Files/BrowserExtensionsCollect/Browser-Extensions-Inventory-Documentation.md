@@ -477,6 +477,5 @@ Write-Log "Uploaded $($UniqueExtensions.Count) unique extensions"
 ---
 
 **Document Version**: 1.0
-**Last Updated**: January 2025
-**Author**: Technical Documentation Team
-**Review Cycle**: Quarterly
+**Last Updated**: 9/16/2025
+**Author**: Petr Beloch (https://github.com/PetrBeloch)
