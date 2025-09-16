@@ -150,6 +150,14 @@
             "linkLabel": "Audit",
             "subTarget": "Audit",
             "style": "link"
+          },
+          {
+            "id": "7f8d5e9a-3c2b-4a1f-9d8e-6f5a4b3c2d1e",
+            "cellValue": "tab",
+            "linkTarget": "parameter",
+            "linkLabel": "Browser Extensions",
+            "subTarget": "BrowserExtensions",
+            "style": "link"
           }
         ]
       },
@@ -9105,9 +9113,9 @@
           {
             "type": 1,
             "content": {
-              "json": "Coming Soon - Check the development of IntuneMonitoring on [GitHub](https://github.com/ugurkocde/IntuneMonitoring) or on [LinkedIn](https://www.linkedin.com/newsletters/just-shipped-by-ugur-7345954317935276033/)"
+              "json": "### 📊 User Enrollment & Deployment \n\n🌐 **Visit [IntuneMonitoring.com](https://intunemonitoring.com) for updates and to customize your dashboard**"
             },
-            "name": "text - 0"
+            "name": "placeholder"
           }
         ]
       },
@@ -9128,9 +9136,9 @@
           {
             "type": 1,
             "content": {
-              "json": "Coming Soon - Check the development of IntuneMonitoring on [GitHub](https://github.com/ugurkocde/IntuneMonitoring) or on [LinkedIn](https://www.linkedin.com/newsletters/just-shipped-by-ugur-7345954317935276033/)"
+              "json": "### 📊 Policies \n\n🌐 **Visit [IntuneMonitoring.com](https://intunemonitoring.com) for updates and to customize your dashboard**"
             },
-            "name": "text - 0"
+            "name": "placeholder"
           }
         ]
       },
@@ -9146,14 +9154,902 @@
       "content": {
         "version": "NotebookGroup/1.0",
         "groupType": "editable",
-        "title": "Audit",
+        "title": "Intune Audit Monitoring",
         "items": [
           {
             "type": 1,
             "content": {
-              "json": "Coming Soon - Check the development of IntuneMonitoring on [GitHub](https://github.com/ugurkocde/IntuneMonitoring) or on [LinkedIn](https://www.linkedin.com/newsletters/just-shipped-by-ugur-7345954317935276033/)"
+              "json": "### 🔍 Intune Audit & Security Monitoring\n\n**Comprehensive audit trail analysis for Microsoft Intune operations with risk-based monitoring and alerting.**\n\n#### 📊 Coverage Areas:\n- **🔐 Security Operations**: Certificate management, privileged actions, anomaly detection\n- **📱 Application Management**: App assignments, deployments, policy changes\n- **🛡️ Compliance Monitoring**: User access patterns, administrative activities\n- **⚠️ Real-time Alerting**: Suspicious activities, bulk operations, security violations\n\n---"
             },
-            "name": "text - 0"
+            "name": "AuditIntro"
+          },
+          {
+            "type": 11,
+            "content": {
+              "version": "LinkItem/1.0",
+              "style": "tabs",
+              "links": [
+                {
+                  "id": "audit-executive",
+                  "cellValue": "auditTab",
+                  "linkTarget": "parameter",
+                  "linkLabel": "📈 Executive",
+                  "subTarget": "Executive",
+                  "style": "link"
+                },
+                {
+                  "id": "audit-security",
+                  "cellValue": "auditTab",
+                  "linkTarget": "parameter",
+                  "linkLabel": "🔐 Security",
+                  "subTarget": "Security",
+                  "style": "link"
+                },
+                {
+                  "id": "audit-operations",
+                  "cellValue": "auditTab",
+                  "linkTarget": "parameter",
+                  "linkLabel": "⚙️ Operations",
+                  "subTarget": "Operations",
+                  "style": "link"
+                },
+                {
+                  "id": "audit-compliance",
+                  "cellValue": "auditTab",
+                  "linkTarget": "parameter",
+                  "linkLabel": "📋 Compliance",
+                  "subTarget": "Compliance",
+                  "style": "link"
+                },
+                {
+                  "id": "audit-alerts",
+                  "cellValue": "auditTab",
+                  "linkTarget": "parameter",
+                  "linkLabel": "🚨 Alerts",
+                  "subTarget": "Alerts",
+                  "style": "link"
+                }
+              ]
+            },
+            "name": "AuditTabs"
+          },
+          {
+            "type": 9,
+            "content": {
+              "version": "KqlParameterItem/1.0",
+              "parameters": [
+                {
+                  "id": "audit-timerange",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "AuditTimeRange",
+                  "label": "Time Range",
+                  "type": 4,
+                  "description": "Select time range for audit analysis",
+                  "value": {
+                    "durationMs": 172800000
+                  },
+                  "typeSettings": {
+                    "selectableValues": [
+                      {
+                        "durationMs": 1800000
+                      },
+                      {
+                        "durationMs": 3600000
+                      },
+                      {
+                        "durationMs": 14400000
+                      },
+                      {
+                        "durationMs": 43200000
+                      },
+                      {
+                        "durationMs": 86400000
+                      },
+                      {
+                        "durationMs": 172800000
+                      },
+                      {
+                        "durationMs": 259200000
+                      },
+                      {
+                        "durationMs": 604800000
+                      },
+                      {
+                        "durationMs": 1209600000
+                      },
+                      {
+                        "durationMs": 2592000000
+                      },
+                      {
+                        "durationMs": 5184000000
+                      },
+                      {
+                        "durationMs": 7776000000
+                      }
+                    ],
+                    "allowCustom": true
+                  }
+                },
+                {
+                  "id": "audit-actor-filter",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "ActorFilter",
+                  "label": "Actor (User)",
+                  "type": 2,
+                  "description": "Filter by specific user/actor",
+                  "multiSelect": true,
+                  "quote": "'",
+                  "delimiter": ",",
+                  "query": "IntuneAuditLogs\n| where TimeGenerated {AuditTimeRange}\n| extend ActorUPN = tostring(parse_json(Properties).Actor.UPN)\n| where isnotempty(ActorUPN)\n| where OperationName !contains \"Create ClientCertificate\"\n| summarize Count = count() by ActorUPN\n| order by Count desc\n| project Value = ActorUPN, Label = strcat(ActorUPN, ' (', Count, ' operations)')\n| limit 50",
+                  "value": [
+                    "value::all"
+                  ],
+                  "typeSettings": {
+                    "additionalResourceOptions": [
+                      "value::all"
+                    ],
+                    "selectAllValue": "*",
+                    "showDefault": false
+                  },
+                  "queryType": 0,
+                  "resourceType": "microsoft.operationalinsights/workspaces"
+                }
+              ],
+              "style": "pills",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces"
+            },
+            "name": "AuditParameters"
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "title": "Executive Dashboard",
+              "items": [
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "IntuneAuditLogs\n| where TimeGenerated {AuditTimeRange}\n| extend ActorUPN = tostring(parse_json(Properties).Actor.UPN)\n| where '*' in ({ActorFilter}) or ActorUPN in ({ActorFilter})\n| extend Category = tostring(Category), ActivityType = toint(parse_json(Properties).ActivityType)\n| where OperationName !contains \"Create ClientCertificate\"\n| extend \n    RiskLevel = case(\n        OperationName contains \"Delete\", \"High\",\n        OperationName contains \"Create\", \"Medium\",\n        OperationName contains \"Patch\", \"Low\",\n        \"Low\"\n    ),\n    OperationType = case(\n        ActivityType == 0, \"Create\",\n        ActivityType == 1, \"Delete\",\n        ActivityType == 2, \"Update\",\n        ActivityType == 3, \"Assign\",\n        \"Other\"\n    )\n| summarize \n    TotalOperations = count(),\n    UniqueActors = dcount(ActorUPN),\n    CriticalOps = countif(RiskLevel == \"Critical\"),\n    HighRiskOps = countif(RiskLevel == \"High\")\n| extend RiskScore = (CriticalOps * 4 + HighRiskOps * 2) * 100 / TotalOperations",
+                    "size": 4,
+                    "title": "Executive KPIs",
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "visualization": "tiles",
+                    "tileSettings": {
+                      "titleContent": {
+                        "columnMatch": "TotalOperations",
+                        "formatter": 1,
+                        "formatOptions": {
+                          "customDisplayName": "Total Operations"
+                        }
+                      },
+                      "leftContent": {
+                        "columnMatch": "TotalOperations",
+                        "formatter": 12,
+                        "formatOptions": {
+                          "palette": "blue"
+                        }
+                      },
+                      "secondaryContent": {
+                        "columnMatch": "UniqueActors",
+                        "formatter": 1,
+                        "formatOptions": {
+                          "customDisplayName": "Active Administrators"
+                        }
+                      },
+                      "showBorder": false
+                    }
+                  },
+                  "customWidth": "25",
+                  "name": "ExecutiveKPI1"
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "IntuneAuditLogs\n| where TimeGenerated {AuditTimeRange}\n| extend ActorUPN = tostring(parse_json(Properties).Actor.UPN)\n| where '*' in ({ActorFilter}) or ActorUPN in ({ActorFilter})\n| where OperationName !contains \"Create ClientCertificate\"\n| extend \n    RiskLevel = case(\n        OperationName contains \"Delete\", \"High\",\n        OperationName contains \"Create\", \"Medium\",\n        OperationName contains \"Patch\", \"Low\",\n        \"Low\"\n    )\n| summarize \n    TotalOperations = count(),\n    HighRiskOps = countif(RiskLevel == \"High\")\n| extend RiskScore = (HighRiskOps * 2) * 100 / TotalOperations\n| project RiskScore",
+                    "size": 4,
+                    "title": "Security Risk Score",
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "visualization": "tiles",
+                    "tileSettings": {
+                      "titleContent": {
+                        "columnMatch": "RiskScore",
+                        "formatter": 1,
+                        "formatOptions": {
+                          "customDisplayName": "Risk Score"
+                        }
+                      },
+                      "leftContent": {
+                        "columnMatch": "RiskScore",
+                        "formatter": 12,
+                        "formatOptions": {
+                          "palette": "redBright",
+                          "thresholdsOptions": "colors",
+                          "thresholdsGrid": [
+                            {
+                              "operator": "<",
+                              "thresholdValue": "25",
+                              "representation": "green"
+                            },
+                            {
+                              "operator": "<",
+                              "thresholdValue": "50",
+                              "representation": "yellow"
+                            },
+                            {
+                              "operator": ">=",
+                              "thresholdValue": "50",
+                              "representation": "redBright"
+                            }
+                          ]
+                        },
+                        "numberFormat": {
+                          "unit": 1,
+                          "options": {
+                            "style": "decimal",
+                            "maximumFractionDigits": 1
+                          }
+                        }
+                      },
+                      "showBorder": false
+                    }
+                  },
+                  "customWidth": "25",
+                  "name": "RiskScore"
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "IntuneAuditLogs\n| where TimeGenerated {AuditTimeRange}\n| extend ActorUPN = tostring(parse_json(Properties).Actor.UPN)\n| where '*' in ({ActorFilter}) or ActorUPN in ({ActorFilter})\n| where OperationName !contains \"Create ClientCertificate\"\n| extend ActivityType = toint(parse_json(Properties).ActivityType)\n| extend \n    OperationType = case(\n        ActivityType == 0, \"Create\",\n        ActivityType == 1, \"Delete\",\n        ActivityType == 2, \"Update\",\n        ActivityType == 3, \"Assign\",\n        \"Other\"\n    )\n| summarize Count = count() by TimeGenerated = bin(TimeGenerated, 1h), OperationType\n| render timechart",
+                    "size": 0,
+                    "title": "Operations Trend (Hourly)",
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "visualization": "areachart"
+                  },
+                  "customWidth": "50",
+                  "name": "OperationsTrend"
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "IntuneAuditLogs\n| where TimeGenerated {AuditTimeRange}\n| extend ActorUPN = tostring(parse_json(Properties).Actor.UPN)\n| where '*' in ({ActorFilter}) or ActorUPN in ({ActorFilter})\n| where OperationName !contains \"Create ClientCertificate\"\n| extend \n    RiskLevel = case(\n        OperationName contains \"Delete\", \"High\",\n        OperationName contains \"Create\", \"Medium\",\n        OperationName contains \"Patch\", \"Low\",\n        \"Low\"\n    )\n| summarize Count = count() by RiskLevel\n| extend Percentage = Count * 100.0 / toscalar(\n    IntuneAuditLogs\n    | where TimeGenerated {AuditTimeRange}\n    | extend ActorUPN = tostring(parse_json(Properties).Actor.UPN)\n    | where '*' in ({ActorFilter}) or ActorUPN in ({ActorFilter})\n    | where OperationName !contains \"Create ClientCertificate\"\n    | count\n)\n| project RiskLevel, Count, Percentage\n| order by \n    case(\n        RiskLevel == \"High\", 1,\n        RiskLevel == \"Medium\", 2,\n        RiskLevel == \"Low\", 3,\n        4\n    )",
+                    "size": 0,
+                    "title": "Risk Distribution",
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "visualization": "piechart"
+                  },
+                  "customWidth": "50",
+                  "name": "RiskDistribution"
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "auditTab",
+              "comparison": "isEqualTo",
+              "value": "Executive"
+            },
+            "name": "ExecutiveDashboard"
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "title": "Security Operations Center",
+              "items": [
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "IntuneAuditLogs\n| where TimeGenerated {AuditTimeRange}\n| extend ActorUPN = tostring(parse_json(Properties).Actor.UPN)\n| where '*' in ({ActorFilter}) or ActorUPN in ({ActorFilter})\n| where OperationName !contains \"Create ClientCertificate\"\n| extend HourOfDay = hourofday(TimeGenerated)\n| where HourOfDay < 6 or HourOfDay > 20  // Outside business hours (6 AM - 8 PM)\n| extend \n    RiskLevel = case(\n        OperationName contains \"Delete\", \"High\",\n        OperationName contains \"Create\", \"Medium\",\n        \"Low\"\n    )\n| project \n    TimeGenerated,\n    ActorUPN,\n    OperationName,\n    RiskLevel,\n    HourOfDay,\n    ResultType\n| order by TimeGenerated desc",
+                    "size": 0,
+                    "title": "⏰ Off-Hours Activity",
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "RiskLevel",
+                          "formatter": 18,
+                          "formatOptions": {
+                            "thresholdsOptions": "colors",
+                            "thresholdsGrid": [
+                              {
+                                "operator": "==",
+                                "thresholdValue": "Critical",
+                                "representation": "redBright"
+                              },
+                              {
+                                "operator": "==",
+                                "thresholdValue": "High",
+                                "representation": "orange"
+                              },
+                              {
+                                "operator": "==",
+                                "thresholdValue": "Medium",
+                                "representation": "yellow"
+                              },
+                              {
+                                "operator": "Default",
+                                "thresholdValue": null,
+                                "representation": "green"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "customWidth": "100",
+                  "name": "OffHoursActivity"
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "IntuneAuditLogs\n| where TimeGenerated {AuditTimeRange}\n| extend ActorUPN = tostring(parse_json(Properties).Actor.UPN)\n| where '*' in ({ActorFilter}) or ActorUPN in ({ActorFilter})\n| where OperationName !contains \"Create ClientCertificate\"\n| extend TargetCount = array_length(parse_json(Properties).TargetObjectIds)\n| where TargetCount >= 5  // Bulk operations (5+ targets)\n| project \n    TimeGenerated,\n    ActorUPN,\n    OperationName,\n    TargetCount,\n    CorrelationId,\n    ResultType\n| order by TargetCount desc, TimeGenerated desc",
+                    "size": 0,
+                    "title": "📦 Bulk Operations (5+ Targets)",
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "TargetCount",
+                          "formatter": 8,
+                          "formatOptions": {
+                            "palette": "redBright"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "customWidth": "100",
+                  "name": "BulkOperations"
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "auditTab",
+              "comparison": "isEqualTo",
+              "value": "Security"
+            },
+            "name": "SecurityOperations"
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "items": [
+                {
+                  "type": 1,
+                  "content": {
+                    "json": "### ⚙️ Operations Overview\n\nMonitor administrative operations that impact your Intune environment including policy changes, application management, and configuration updates."
+                  },
+                  "name": "OperationsIntro"
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "IntuneAuditLogs\n| where TimeGenerated {AuditTimeRange}\n| extend ActorUPN = tostring(parse_json(Properties).Actor.UPN)\n| where '*' in ({ActorFilter}) or ActorUPN in ({ActorFilter})\n| where OperationName !contains \"Create ClientCertificate\"\n| where OperationName contains \"Policy\" or OperationName contains \"Configuration\" or OperationName contains \"Profile\"\n| extend \n    ChangeType = case(\n        OperationName contains \"Create\", \"Created\",\n        OperationName contains \"Delete\", \"Deleted\",\n        OperationName contains \"Patch\" or OperationName contains \"Update\", \"Modified\",\n        \"Other\"\n    ),\n    PolicyType = case(\n        OperationName contains \"DeviceConfiguration\", \"Device Configuration\",\n        OperationName contains \"DeviceCompliancePolicy\", \"Compliance Policy\",\n        OperationName contains \"DeviceManagementConfigurationPolicy\", \"Settings Catalog\",\n        OperationName contains \"WindowsAutopilotDeploymentProfile\", \"Autopilot Profile\",\n        OperationName contains \"DeviceEnrollmentConfiguration\", \"Enrollment Configuration\",\n        \"Other Policy\"\n    )\n| summarize OperationCount = count() by PolicyType, ChangeType, TimeGenerated = bin(TimeGenerated, 1h)\n| order by TimeGenerated desc, OperationCount desc",
+                    "size": 0,
+                    "title": "📋 Policy Changes Over Time",
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "visualization": "areachart",
+                    "chartSettings": {
+                      "xAxis": "TimeGenerated",
+                      "yAxis": [
+                        "OperationCount"
+                      ],
+                      "group": "PolicyType",
+                      "xSettings": {
+                        "numberFormatSettings": {
+                          "unit": 17,
+                          "options": {
+                            "style": "decimal"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "customWidth": "50",
+                  "name": "PolicyChangesChart"
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "IntuneAuditLogs\n| where TimeGenerated {AuditTimeRange}\n| extend ActorUPN = tostring(parse_json(Properties).Actor.UPN)\n| where '*' in ({ActorFilter}) or ActorUPN in ({ActorFilter})\n| where OperationName !contains \"Create ClientCertificate\"\n| where OperationName contains \"MobileApp\" or OperationName contains \"Application\"\n| extend \n    AppOperation = case(\n        OperationName contains \"Create\", \"App Created\",\n        OperationName contains \"Delete\", \"App Deleted\",\n        OperationName contains \"Patch\", \"App Modified\",\n        OperationName contains \"Assignment\", \"Assignment Changed\",\n        \"Other\"\n    )\n| summarize Count = count() by AppOperation, TimeGenerated = bin(TimeGenerated, 1d)\n| order by TimeGenerated desc",
+                    "size": 0,
+                    "title": "📱 Application Management Activities",
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "visualization": "columnchart",
+                    "chartSettings": {
+                      "xAxis": "TimeGenerated",
+                      "yAxis": [
+                        "Count"
+                      ],
+                      "group": "AppOperation"
+                    }
+                  },
+                  "customWidth": "50",
+                  "name": "AppManagementChart"
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "IntuneAuditLogs\n| where TimeGenerated {AuditTimeRange}\n| extend ActorUPN = tostring(parse_json(Properties).Actor.UPN)\n| where '*' in ({ActorFilter}) or ActorUPN in ({ActorFilter})\n| where OperationName !contains \"Create ClientCertificate\"\n| where OperationName contains \"Policy\" or OperationName contains \"Configuration\" or OperationName contains \"Profile\"\n| extend \n    TargetResource = tostring(parse_json(Properties).TargetDisplayNames[0]),\n    ChangeType = case(\n        OperationName contains \"Create\", \"✅ Created\",\n        OperationName contains \"Delete\", \"❌ Deleted\", \n        OperationName contains \"Patch\", \"📝 Modified\",\n        \"🔄 Other\"\n    ),\n    PolicyCategory = case(\n        OperationName contains \"DeviceConfiguration\", \"Device Configuration\",\n        OperationName contains \"DeviceCompliancePolicy\", \"Compliance Policy\",\n        OperationName contains \"DeviceManagementConfigurationPolicy\", \"Settings Catalog\",\n        OperationName contains \"WindowsAutopilotDeploymentProfile\", \"Autopilot Profile\",\n        \"Other Policy Type\"\n    )\n| project \n    TimeGenerated,\n    ActorUPN,\n    PolicyCategory,\n    ChangeType,\n    TargetResource,\n    OperationName,\n    ResultType\n| order by TimeGenerated desc\n| take 100",
+                    "size": 0,
+                    "title": "📋 Recent Policy Changes (Last 100)",
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "ChangeType",
+                          "formatter": 18,
+                          "formatOptions": {
+                            "thresholdsOptions": "icons",
+                            "thresholdsGrid": [
+                              {
+                                "operator": "contains",
+                                "thresholdValue": "Created",
+                                "representation": "success",
+                                "text": "✅"
+                              },
+                              {
+                                "operator": "contains",
+                                "thresholdValue": "Deleted",
+                                "representation": "critical",
+                                "text": "❌"
+                              },
+                              {
+                                "operator": "contains",
+                                "thresholdValue": "Modified",
+                                "representation": "warning",
+                                "text": "📝"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "columnMatch": "ResultType",
+                          "formatter": 18,
+                          "formatOptions": {
+                            "thresholdsOptions": "colors",
+                            "thresholdsGrid": [
+                              {
+                                "operator": "==",
+                                "thresholdValue": "Success",
+                                "representation": "green"
+                              },
+                              {
+                                "operator": "!=",
+                                "thresholdValue": "Success",
+                                "representation": "redBright"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "customWidth": "100",
+                  "name": "PolicyChangesTable"
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "IntuneAuditLogs\n| where TimeGenerated {AuditTimeRange}\n| extend ActorUPN = tostring(parse_json(Properties).Actor.UPN)\n| where '*' in ({ActorFilter}) or ActorUPN in ({ActorFilter})\n| where OperationName !contains \"Create ClientCertificate\"\n| where OperationName contains \"MobileApp\" or OperationName contains \"Application\"\n| extend \n    AppName = tostring(parse_json(Properties).TargetDisplayNames[0]),\n    AppAction = case(\n        OperationName contains \"Create\", \"🆕 Created\",\n        OperationName contains \"Delete\", \"🗑️ Deleted\",\n        OperationName contains \"Patch\", \"✏️ Modified\",\n        OperationName contains \"Assignment\", \"🎯 Assignment Changed\",\n        \"🔄 Other\"\n    )\n| project \n    TimeGenerated,\n    ActorUPN,\n    AppAction,\n    AppName,\n    OperationName,\n    ResultType\n| order by TimeGenerated desc\n| take 50",
+                    "size": 0,
+                    "title": "📱 Recent Application Operations (Last 50)",
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "AppAction",
+                          "formatter": 18,
+                          "formatOptions": {
+                            "thresholdsOptions": "icons",
+                            "thresholdsGrid": [
+                              {
+                                "operator": "contains",
+                                "thresholdValue": "Created",
+                                "representation": "success",
+                                "text": "🆕"
+                              },
+                              {
+                                "operator": "contains",
+                                "thresholdValue": "Deleted",
+                                "representation": "critical",
+                                "text": "🗑️"
+                              },
+                              {
+                                "operator": "contains",
+                                "thresholdValue": "Modified",
+                                "representation": "warning",
+                                "text": "✏️"
+                              },
+                              {
+                                "operator": "contains",
+                                "thresholdValue": "Assignment",
+                                "representation": "info",
+                                "text": "🎯"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "columnMatch": "ResultType",
+                          "formatter": 18,
+                          "formatOptions": {
+                            "thresholdsOptions": "colors",
+                            "thresholdsGrid": [
+                              {
+                                "operator": "==",
+                                "thresholdValue": "Success",
+                                "representation": "green"
+                              },
+                              {
+                                "operator": "!=",
+                                "thresholdValue": "Success",
+                                "representation": "redBright"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "customWidth": "100",
+                  "name": "ApplicationOperationsTable"
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "auditTab",
+              "comparison": "isEqualTo",
+              "value": "Operations"
+            },
+            "name": "OperationsTab"
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "items": [
+                {
+                  "type": 1,
+                  "content": {
+                    "json": "### 📋 Compliance Monitoring\n\nTrack device compliance operations, policy assignments, and enforcement actions across your Intune environment."
+                  },
+                  "name": "ComplianceIntro"
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "IntuneAuditLogs\n| where TimeGenerated {AuditTimeRange}\n| extend ActorUPN = tostring(parse_json(Properties).Actor.UPN)\n| where '*' in ({ActorFilter}) or ActorUPN in ({ActorFilter})\n| where OperationName !contains \"Create ClientCertificate\"\n| where OperationName contains \"Compliance\" or OperationName contains \"DeviceHealthScript\" or OperationName contains \"RemediationScript\"\n| extend \n    ComplianceAction = case(\n        OperationName contains \"DeviceCompliancePolicy\", \"Policy Management\",\n        OperationName contains \"DeviceHealthScript\", \"Health Script\",\n        OperationName contains \"RemediationScript\", \"Remediation Script\",\n        OperationName contains \"Assignment\", \"Assignment Change\",\n        \"Other Compliance\"\n    ),\n    ActionType = case(\n        OperationName contains \"Create\", \"Created\",\n        OperationName contains \"Delete\", \"Deleted\",\n        OperationName contains \"Patch\", \"Modified\",\n        \"Other\"\n    )\n| summarize Count = count() by ComplianceAction, ActionType, TimeGenerated = bin(TimeGenerated, 1d)\n| order by TimeGenerated desc",
+                    "size": 0,
+                    "title": "📊 Compliance Activities Over Time",
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "visualization": "areachart",
+                    "chartSettings": {
+                      "xAxis": "TimeGenerated",
+                      "yAxis": [
+                        "Count"
+                      ],
+                      "group": "ComplianceAction"
+                    }
+                  },
+                  "customWidth": "50",
+                  "name": "ComplianceChart"
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "IntuneAuditLogs\n| where TimeGenerated {AuditTimeRange}\n| extend ActorUPN = tostring(parse_json(Properties).Actor.UPN)\n| where '*' in ({ActorFilter}) or ActorUPN in ({ActorFilter})\n| where OperationName !contains \"Create ClientCertificate\"\n| where ResultType != \"Success\"\n| summarize FailedOperations = count() by OperationName, ResultType\n| order by FailedOperations desc\n| take 10",
+                    "size": 0,
+                    "title": "⚠️ Top Failed Operations",
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "visualization": "piechart"
+                  },
+                  "customWidth": "50",
+                  "name": "FailedOperationsChart"
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "IntuneAuditLogs\n| where TimeGenerated {AuditTimeRange}\n| extend ActorUPN = tostring(parse_json(Properties).Actor.UPN)\n| where '*' in ({ActorFilter}) or ActorUPN in ({ActorFilter})\n| where OperationName !contains \"Create ClientCertificate\"\n| where OperationName contains \"Compliance\" or OperationName contains \"DeviceHealthScript\"\n| extend \n    ResourceName = tostring(parse_json(Properties).TargetDisplayNames[0]),\n    ComplianceType = case(\n        OperationName contains \"DeviceCompliancePolicy\", \"🛡️ Compliance Policy\",\n        OperationName contains \"DeviceHealthScript\", \"💊 Health Script\",\n        OperationName contains \"RemediationScript\", \"🔧 Remediation Script\",\n        \"📋 Other\"\n    ),\n    Action = case(\n        OperationName contains \"Create\", \"➕ Created\",\n        OperationName contains \"Delete\", \"❌ Deleted\",\n        OperationName contains \"Patch\", \"📝 Modified\",\n        \"🔄 Other\"\n    )\n| project \n    TimeGenerated,\n    ActorUPN,\n    ComplianceType,\n    Action,\n    ResourceName,\n    OperationName,\n    ResultType\n| order by TimeGenerated desc\n| take 50",
+                    "size": 0,
+                    "title": "📋 Recent Compliance Operations (Last 50)",
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "Action",
+                          "formatter": 18,
+                          "formatOptions": {
+                            "thresholdsOptions": "icons",
+                            "thresholdsGrid": [
+                              {
+                                "operator": "contains",
+                                "thresholdValue": "Created",
+                                "representation": "success",
+                                "text": "➕"
+                              },
+                              {
+                                "operator": "contains",
+                                "thresholdValue": "Deleted",
+                                "representation": "critical",
+                                "text": "❌"
+                              },
+                              {
+                                "operator": "contains",
+                                "thresholdValue": "Modified",
+                                "representation": "warning",
+                                "text": "📝"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "columnMatch": "ResultType",
+                          "formatter": 18,
+                          "formatOptions": {
+                            "thresholdsOptions": "colors",
+                            "thresholdsGrid": [
+                              {
+                                "operator": "==",
+                                "thresholdValue": "Success",
+                                "representation": "green"
+                              },
+                              {
+                                "operator": "!=",
+                                "thresholdValue": "Success",
+                                "representation": "redBright"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "customWidth": "100",
+                  "name": "ComplianceOperationsTable"
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "auditTab",
+              "comparison": "isEqualTo",
+              "value": "Compliance"
+            },
+            "name": "ComplianceTab"
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "items": [
+                {
+                  "type": 1,
+                  "content": {
+                    "json": "### 🚨 Security Alerts & Monitoring\n\nReal-time alerting for critical security events, suspicious activities, and administrative actions requiring attention."
+                  },
+                  "name": "AlertsIntro"
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "IntuneAuditLogs\n| where TimeGenerated {AuditTimeRange}\n| extend ActorUPN = tostring(parse_json(Properties).Actor.UPN)\n| where '*' in ({ActorFilter}) or ActorUPN in ({ActorFilter})\n| where OperationName !contains \"Create ClientCertificate\"\n| extend \n    AlertLevel = case(\n        OperationName contains \"Delete\" and (OperationName contains \"Policy\" or OperationName contains \"Configuration\"), \"🔴 Critical\",\n        ResultType != \"Success\" and OperationName contains \"Delete\", \"🟠 High\",\n        OperationName contains \"Assignment\" and ResultType != \"Success\", \"🟡 Medium\",\n        ResultType != \"Success\", \"🔵 Low\",\n        \"✅ Normal\"\n    ),\n    AlertCategory = case(\n        OperationName contains \"Delete\", \"Deletion Alert\",\n        ResultType != \"Success\", \"Failure Alert\", \n        OperationName contains \"Assignment\", \"Assignment Alert\",\n        \"Information\"\n    )\n| where AlertLevel != \"✅ Normal\"\n| summarize AlertCount = count() by AlertLevel, AlertCategory, TimeGenerated = bin(TimeGenerated, 1h)\n| order by TimeGenerated desc",
+                    "size": 0,
+                    "title": "🚨 Security Alerts Timeline",
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "visualization": "areachart",
+                    "chartSettings": {
+                      "xAxis": "TimeGenerated",
+                      "yAxis": [
+                        "AlertCount"
+                      ],
+                      "group": "AlertLevel"
+                    }
+                  },
+                  "customWidth": "60",
+                  "name": "AlertsChart"
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "IntuneAuditLogs\n| where TimeGenerated {AuditTimeRange}\n| extend ActorUPN = tostring(parse_json(Properties).Actor.UPN)\n| where '*' in ({ActorFilter}) or ActorUPN in ({ActorFilter})\n| where OperationName !contains \"Create ClientCertificate\"\n| extend \n    AlertLevel = case(\n        OperationName contains \"Delete\" and (OperationName contains \"Policy\" or OperationName contains \"Configuration\"), \"Critical\",\n        ResultType != \"Success\" and OperationName contains \"Delete\", \"High\",\n        OperationName contains \"Assignment\" and ResultType != \"Success\", \"Medium\",\n        ResultType != \"Success\", \"Low\",\n        \"Normal\"\n    )\n| where AlertLevel != \"Normal\"\n| summarize Count = count() by AlertLevel\n| order by \n    case(\n        AlertLevel == \"Critical\", 1,\n        AlertLevel == \"High\", 2,\n        AlertLevel == \"Medium\", 3,\n        AlertLevel == \"Low\", 4,\n        5\n    )",
+                    "size": 3,
+                    "title": "🎯 Alert Summary",
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "visualization": "tiles",
+                    "tileSettings": {
+                      "titleContent": {
+                        "columnMatch": "AlertLevel",
+                        "formatter": 1
+                      },
+                      "leftContent": {
+                        "columnMatch": "Count",
+                        "formatter": 12,
+                        "formatOptions": {
+                          "palette": "auto"
+                        },
+                        "numberFormat": {
+                          "unit": 17,
+                          "options": {
+                            "style": "decimal",
+                            "maximumFractionDigits": 0
+                          }
+                        }
+                      },
+                      "secondaryContent": {
+                        "columnMatch": "AlertLevel",
+                        "formatter": 1
+                      },
+                      "showBorder": false
+                    }
+                  },
+                  "customWidth": "40",
+                  "name": "AlertSummaryTiles"
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "IntuneAuditLogs\n| where TimeGenerated {AuditTimeRange}\n| extend ActorUPN = tostring(parse_json(Properties).Actor.UPN)\n| where '*' in ({ActorFilter}) or ActorUPN in ({ActorFilter})\n| where OperationName !contains \"Create ClientCertificate\"\n| extend \n    AlertLevel = case(\n        OperationName contains \"Delete\" and (OperationName contains \"Policy\" or OperationName contains \"Configuration\"), \"🔴 Critical\",\n        ResultType != \"Success\" and OperationName contains \"Delete\", \"🟠 High\",\n        OperationName contains \"Assignment\" and ResultType != \"Success\", \"🟡 Medium\",\n        ResultType != \"Success\", \"🔵 Low\",\n        \"✅ Normal\"\n    )\n| where AlertLevel != \"✅ Normal\"\n| extend \n    ResourceName = iif(isnotnull(parse_json(Properties).TargetDisplayNames) and array_length(parse_json(Properties).TargetDisplayNames) > 0, tostring(parse_json(Properties).TargetDisplayNames[0]), \"N/A\"),\n    AlertDescription = case(\n        OperationName contains \"Delete\" and (OperationName contains \"Policy\" or OperationName contains \"Configuration\"), strcat(\"Policy/Configuration deleted: \", ResourceName),\n        ResultType != \"Success\", strcat(\"Operation failed: \", OperationName, \" - \", ResultType),\n        strcat(\"Operation: \", OperationName)\n    )\n| project \n    TimeGenerated,\n    AlertLevel,\n    ActorUPN,\n    AlertDescription,\n    ResourceName,\n    OperationName,\n    ResultType,\n    CorrelationId\n| order by \n    case(\n        AlertLevel == \"🔴 Critical\", 1,\n        AlertLevel == \"🟠 High\", 2,\n        AlertLevel == \"🟡 Medium\", 3,\n        AlertLevel == \"🔵 Low\", 4,\n        5\n    ), TimeGenerated desc\n| take 100",
+                    "size": 0,
+                    "title": "🚨 Active Security Alerts (Last 100)",
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "AlertLevel",
+                          "formatter": 18,
+                          "formatOptions": {
+                            "thresholdsOptions": "colors",
+                            "thresholdsGrid": [
+                              {
+                                "operator": "contains",
+                                "thresholdValue": "Critical",
+                                "representation": "redBright"
+                              },
+                              {
+                                "operator": "contains",
+                                "thresholdValue": "High",
+                                "representation": "orange"
+                              },
+                              {
+                                "operator": "contains",
+                                "thresholdValue": "Medium",
+                                "representation": "yellow"
+                              },
+                              {
+                                "operator": "contains",
+                                "thresholdValue": "Low",
+                                "representation": "blue"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "columnMatch": "ResultType",
+                          "formatter": 18,
+                          "formatOptions": {
+                            "thresholdsOptions": "colors",
+                            "thresholdsGrid": [
+                              {
+                                "operator": "==",
+                                "thresholdValue": "Success",
+                                "representation": "green"
+                              },
+                              {
+                                "operator": "!=",
+                                "thresholdValue": "Success",
+                                "representation": "redBright"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "customWidth": "100",
+                  "name": "SecurityAlertsTable"
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "IntuneAuditLogs\n| where TimeGenerated {AuditTimeRange}\n| extend ActorUPN = tostring(parse_json(Properties).Actor.UPN)\n| where '*' in ({ActorFilter}) or ActorUPN in ({ActorFilter})\n| where OperationName !contains \"Create ClientCertificate\"\n| extend BusinessHour = hourofday(TimeGenerated)\n| where BusinessHour < 6 or BusinessHour > 20  // Off-hours: before 6 AM or after 8 PM\n| extend \n    RiskLevel = case(\n        OperationName contains \"Delete\", \"High Risk\",\n        OperationName contains \"Create\" or OperationName contains \"Patch\", \"Medium Risk\",\n        \"Low Risk\"\n    )\n| summarize \n    OffHoursCount = count(),\n    UniqueUsers = dcount(ActorUPN),\n    Operations = make_set(OperationName, 5)\n by ActorUPN, RiskLevel, TimeGenerated = bin(TimeGenerated, 1d)\n| order by OffHoursCount desc, TimeGenerated desc\n| take 20",
+                    "size": 0,
+                    "title": "🌙 Off-Hours Activity Monitoring",
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "RiskLevel",
+                          "formatter": 18,
+                          "formatOptions": {
+                            "thresholdsOptions": "colors",
+                            "thresholdsGrid": [
+                              {
+                                "operator": "contains",
+                                "thresholdValue": "High",
+                                "representation": "redBright"
+                              },
+                              {
+                                "operator": "contains",
+                                "thresholdValue": "Medium",
+                                "representation": "yellow"
+                              },
+                              {
+                                "operator": "Default",
+                                "thresholdValue": null,
+                                "representation": "green"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "columnMatch": "OffHoursCount",
+                          "formatter": 8,
+                          "formatOptions": {
+                            "palette": "redBright"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "customWidth": "100",
+                  "name": "OffHoursActivityTable"
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "auditTab",
+              "comparison": "isEqualTo",
+              "value": "Alerts"
+            },
+            "name": "AlertsTab"
           }
         ]
       },
@@ -9163,10 +10059,361 @@
         "value": "Audit"
       },
       "name": "AuditGroup"
+    },
+    {
+      "type": 12,
+      "content": {
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "title": "Browser Extensions",
+        "items": [
+          {
+            "type": 1,
+            "content": {
+              "json": "### 🌐 Browser Extensions Inventory\n\nThis dashboard provides comprehensive monitoring of browser extensions across your managed devices. Data is collected from Chrome, Edge, and Firefox browsers using the PowerShell script that uploads extension information to the `DevicesBrowserExtensionsInventory_CL` table.\n\n**Data Collection Scope:**\n- **Chrome** and **Microsoft Edge** extensions from user profiles\n- **Firefox** add-ons from user profiles\n- Extension details including name, version, and installation status\n- User and device association information"
+            },
+            "name": "ExtensionsIntro"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "DevicesBrowserExtensionsInventory_CL\n| summarize DeviceCount = dcount(DeviceName_s), ExtensionCount = dcount(ExtensionID_s), TotalInstallations = count() by TimeGenerated_t = bin(TimeGenerated, 1d)\n| order by TimeGenerated_t desc\n| take 1\n| project DeviceCount, ExtensionCount, TotalInstallations",
+              "size": 4,
+              "title": "Extension Statistics Overview",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "tiles",
+              "tileSettings": {
+                "titleContent": {
+                  "columnMatch": "DeviceCount",
+                  "formatter": 1,
+                  "formatOptions": {
+                    "customDisplayName": "Devices with Extensions"
+                  }
+                },
+                "leftContent": {
+                  "columnMatch": "DeviceCount",
+                  "formatter": 12,
+                  "formatOptions": {
+                    "palette": "blue"
+                  },
+                  "numberFormat": {
+                    "unit": 17,
+                    "options": {
+                      "style": "decimal",
+                      "useGrouping": false,
+                      "maximumFractionDigits": 2,
+                      "maximumSignificantDigits": 3
+                    }
+                  }
+                },
+                "secondaryContent": {
+                  "columnMatch": "ExtensionCount",
+                  "formatter": 1,
+                  "formatOptions": {
+                    "customDisplayName": "Unique Extensions"
+                  }
+                },
+                "showBorder": false
+              }
+            },
+            "customWidth": "33",
+            "name": "ExtensionStats1"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "DevicesBrowserExtensionsInventory_CL\n| summarize DeviceCount = dcount(DeviceName_s), ExtensionCount = dcount(ExtensionID_s), TotalInstallations = count() by TimeGenerated_t = bin(TimeGenerated, 1d)\n| order by TimeGenerated_t desc\n| take 1\n| project DeviceCount, ExtensionCount, TotalInstallations",
+              "size": 4,
+              "title": "Extension Statistics Overview",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "tiles",
+              "tileSettings": {
+                "titleContent": {
+                  "columnMatch": "ExtensionCount",
+                  "formatter": 1,
+                  "formatOptions": {
+                    "customDisplayName": "Unique Extensions"
+                  }
+                },
+                "leftContent": {
+                  "columnMatch": "ExtensionCount",
+                  "formatter": 12,
+                  "formatOptions": {
+                    "palette": "green"
+                  },
+                  "numberFormat": {
+                    "unit": 17,
+                    "options": {
+                      "style": "decimal",
+                      "useGrouping": false,
+                      "maximumFractionDigits": 2,
+                      "maximumSignificantDigits": 3
+                    }
+                  }
+                },
+                "secondaryContent": {
+                  "columnMatch": "TotalInstallations",
+                  "formatter": 1,
+                  "formatOptions": {
+                    "customDisplayName": "Total Installations"
+                  }
+                },
+                "showBorder": false
+              }
+            },
+            "customWidth": "33",
+            "name": "ExtensionStats2"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "DevicesBrowserExtensionsInventory_CL\n| summarize DeviceCount = dcount(DeviceName_s), ExtensionCount = dcount(ExtensionID_s), TotalInstallations = count() by TimeGenerated_t = bin(TimeGenerated, 1d)\n| order by TimeGenerated_t desc\n| take 1\n| project DeviceCount, ExtensionCount, TotalInstallations",
+              "size": 4,
+              "title": "Extension Statistics Overview",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "tiles",
+              "tileSettings": {
+                "titleContent": {
+                  "columnMatch": "TotalInstallations",
+                  "formatter": 1,
+                  "formatOptions": {
+                    "customDisplayName": "Total Installations"
+                  }
+                },
+                "leftContent": {
+                  "columnMatch": "TotalInstallations",
+                  "formatter": 12,
+                  "formatOptions": {
+                    "palette": "orange"
+                  },
+                  "numberFormat": {
+                    "unit": 17,
+                    "options": {
+                      "style": "decimal",
+                      "useGrouping": false,
+                      "maximumFractionDigits": 2,
+                      "maximumSignificantDigits": 3
+                    }
+                  }
+                },
+                "showBorder": false
+              }
+            },
+            "customWidth": "33",
+            "name": "ExtensionStats3"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "DevicesBrowserExtensionsInventory_CL\n| summarize InstallCount = count() by Browser_s\n| order by InstallCount desc",
+              "size": 1,
+              "title": "Extensions by Browser",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "piechart",
+              "chartSettings": {
+                "showLegend": true,
+                "showDataLabels": true
+              }
+            },
+            "customWidth": "50",
+            "name": "ExtensionsByBrowser"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "DevicesBrowserExtensionsInventory_CL\n| summarize InstallCount = count() by ExtensionName_s\n| top 10 by InstallCount desc\n| order by InstallCount desc",
+              "size": 1,
+              "title": "Top 10 Most Installed Extensions",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "barchart",
+              "chartSettings": {
+                "xAxis": "ExtensionName_s",
+                "yAxis": [
+                  "InstallCount"
+                ],
+                "showDataLabels": true,
+                "ySettings": {
+                  "isLogarithmic": false,
+                  "min": 0
+                }
+              }
+            },
+            "customWidth": "50",
+            "name": "TopExtensions"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "DevicesBrowserExtensionsInventory_CL\n| summarize DevicesWithExtensions = dcount(DeviceName_s) by d = bin(TimeGenerated, 1d)\n| order by d desc\n| take 30\n| render timechart",
+              "size": 0,
+              "title": "Device Extension Activity Trend (Last 30 Days)",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "linechart"
+            },
+            "name": "ExtensionTrend"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "DevicesBrowserExtensionsInventory_CL\n| where TimeGenerated >= ago(7d)\n| summarize \n    Devices = dcount(DeviceName_s),\n    UniqueExtensions = dcount(ExtensionID_s),\n    TotalInstallations = count(),\n    LastSeen = max(TimeGenerated)\n    by ExtensionName_s, Browser_s\n| order by TotalInstallations desc\n| project \n    ['Extension Name'] = ExtensionName_s,\n    Browser = Browser_s,\n    ['Devices'] = Devices,\n    ['Installations'] = TotalInstallations,\n    ['Last Seen'] = LastSeen",
+              "size": 0,
+              "title": "Detailed Extension Inventory (Last 7 Days)",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "table",
+              "gridSettings": {
+                "formatters": [
+                  {
+                    "columnMatch": "Devices",
+                    "formatter": 4,
+                    "formatOptions": {
+                      "palette": "blue"
+                    }
+                  },
+                  {
+                    "columnMatch": "Installations",
+                    "formatter": 4,
+                    "formatOptions": {
+                      "palette": "green"
+                    }
+                  },
+                  {
+                    "columnMatch": "Last Seen",
+                    "formatter": 6
+                  }
+                ],
+                "filter": true
+              },
+              "sortBy": []
+            },
+            "name": "DetailedExtensionInventory"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "DevicesBrowserExtensionsInventory_CL\n| where TimeGenerated >= ago(7d)\n| summarize \n    Extensions = dcount(ExtensionID_s),\n    TotalInstallations = count(),\n    LastActivity = max(TimeGenerated),\n    Browsers = make_set(Browser_s)\n    by DeviceName_s, Username_s\n| order by Extensions desc\n| project \n    ['Device Name'] = DeviceName_s,\n    ['Username'] = Username_s,\n    ['Extensions'] = Extensions,\n    ['Total Installations'] = TotalInstallations,\n    ['Browsers'] = Browsers,\n    ['Last Activity'] = LastActivity",
+              "size": 0,
+              "title": "Extensions by Device and User (Last 7 Days)",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "table",
+              "gridSettings": {
+                "formatters": [
+                  {
+                    "columnMatch": "Extensions",
+                    "formatter": 4,
+                    "formatOptions": {
+                      "palette": "blue"
+                    }
+                  },
+                  {
+                    "columnMatch": "Total Installations",
+                    "formatter": 4,
+                    "formatOptions": {
+                      "palette": "green"
+                    }
+                  },
+                  {
+                    "columnMatch": "Last Activity",
+                    "formatter": 6
+                  }
+                ],
+                "filter": true
+              },
+              "sortBy": []
+            },
+            "name": "ExtensionsByDevice"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "DevicesBrowserExtensionsInventory_CL\n| where TimeGenerated >= ago(7d)\n| extend SecurityCategory = case(\n    ExtensionName_s has \"ublock\" or ExtensionName_s has \"adblock\" or ExtensionName_s has \"adguard\", \"Ad Blocker\",\n    ExtensionName_s has \"lastpass\" or ExtensionName_s has \"1password\" or ExtensionName_s has \"bitwarden\" or ExtensionName_s has \"dashlane\", \"Password Manager\",\n    ExtensionName_s has \"antivirus\" or ExtensionName_s has \"security\" or ExtensionName_s has \"malware\", \"Security\",\n    ExtensionName_s has \"vpn\" or ExtensionName_s has \"proxy\", \"VPN/Proxy\",\n    ExtensionName_s has \"downloader\" or ExtensionName_s has \"torrent\", \"Downloader\",\n    \"Other\"\n)\n| summarize Count = count(), Devices = dcount(DeviceName_s) by SecurityCategory\n| order by Count desc",
+              "size": 1,
+              "title": "Extensions by Security Category",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "table",
+              "gridSettings": {
+                "formatters": [
+                  {
+                    "columnMatch": "Count",
+                    "formatter": 4,
+                    "formatOptions": {
+                      "palette": "blue"
+                    }
+                  },
+                  {
+                    "columnMatch": "Devices",
+                    "formatter": 4,
+                    "formatOptions": {
+                      "palette": "green"
+                    }
+                  }
+                ]
+              }
+            },
+            "customWidth": "50",
+            "name": "SecurityCategories"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "DevicesBrowserExtensionsInventory_CL\n| where TimeGenerated >= ago(30d)\n| extend DaysOld = datetime_diff('day', now(), TimeGenerated)\n| summarize \n    UniqueExtensions = dcount(ExtensionID_s),\n    TotalInstallations = count()\n    by AgeGroup = case(\n        DaysOld <= 1, 'Last 24 hours',\n        DaysOld <= 7, 'Last week',\n        DaysOld <= 30, 'Last month',\n        'Older'\n    )\n| extend SortOrder = case(\n        AgeGroup == 'Last 24 hours', 1,\n        AgeGroup == 'Last week', 2,\n        AgeGroup == 'Last month', 3,\n        4\n    )\n| order by SortOrder asc\n| project-away SortOrder",
+              "size": 1,
+              "title": "Extension Data Freshness",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "table",
+              "gridSettings": {
+                "formatters": [
+                  {
+                    "columnMatch": "UniqueExtensions",
+                    "formatter": 4,
+                    "formatOptions": {
+                      "palette": "blue"
+                    }
+                  },
+                  {
+                    "columnMatch": "TotalInstallations",
+                    "formatter": 4,
+                    "formatOptions": {
+                      "palette": "green"
+                    }
+                  }
+                ]
+              }
+            },
+            "customWidth": "50",
+            "name": "DataFreshness"
+          }
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "tab",
+        "comparison": "isEqualTo",
+        "value": "BrowserExtensions"
+      },
+      "name": "BrowserExtensionsGroup"
     }
   ],
   "fallbackResourceIds": [
-    "Azure Monitor"
+    "/subscriptions/3f66ecfd-c011-4956-bcea-d431a322eb15/resourceGroups/csg-audit/providers/Microsoft.OperationalInsights/workspaces/csg-auditlogs"
   ],
   "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
 }
