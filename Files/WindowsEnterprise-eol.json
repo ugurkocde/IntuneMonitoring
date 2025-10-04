@@ -1,5 +1,26 @@
 [
   {
+    "name": "11-25h2-e",
+    "codename": null,
+    "label": "11 25H2 (E)",
+    "releaseDate": "2025-09-30",
+    "isLts": false,
+    "ltsFrom": null,
+    "isEoas": false,
+    "eoasFrom": "2028-10-10",
+    "isEol": false,
+    "eolFrom": "2028-10-10",
+    "isEoes": null,
+    "eoesFrom": null,
+    "isMaintained": true,
+    "latest": {
+      "name": "10.0.26200",
+      "date": null,
+      "link": "https://learn.microsoft.com/windows/release-health/windows11-release-information"
+    },
+    "custom": null
+  },
+  {
     "name": "11-24h2-e",
     "codename": null,
     "label": "11 24H2 (E)",
