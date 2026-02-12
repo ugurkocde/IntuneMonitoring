@@ -1,5 +1,26 @@
 [
   {
+    "name": "11-26h1-e",
+    "codename": null,
+    "label": "11 26H1 (E)",
+    "releaseDate": "2026-02-10",
+    "isLts": false,
+    "ltsFrom": null,
+    "isEoas": false,
+    "eoasFrom": "2029-03-13",
+    "isEol": false,
+    "eolFrom": "2029-03-13",
+    "isEoes": null,
+    "eoesFrom": null,
+    "isMaintained": true,
+    "latest": {
+      "name": "10.0.28000",
+      "date": null,
+      "link": "https://learn.microsoft.com/windows/release-health/windows11-release-information"
+    },
+    "custom": null
+  },
+  {
     "name": "11-25h2-e",
     "codename": null,
     "label": "11 25H2 (E)",
